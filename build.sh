@@ -4,7 +4,7 @@
 # Copyright (C) 2020-2021 Adithya R.
 
 SECONDS=0 # builtin bash timer
-ZIPNAME="uvite-$(date '+%Y%m%d-%H%M')-surya.zip"
+ZIPNAME="uvite-Ksu$(date '+%Y%m%d-%H%M')-surya.zip"
 TC_DIR="$(pwd)/tc/clang-r498229"
 AK3_DIR="$(pwd)/android/AnyKernel3"
 DEFCONFIG="surya_defconfig"
@@ -25,6 +25,9 @@ if ! [ -d "$TC_DIR" ]; then
 		exit 1
 	fi
 fi
+
+# KSU
+rm -rf KernelSU && curl -LSs "https://raw.githubusercontent.com/Ancient-Project/KernelSU/main/kernel/setup.sh" | bash -
 
 if [[ $1 = "-r" || $1 = "--regen" ]]; then
 	make O=out ARCH=arm64 $DEFCONFIG savedefconfig
@@ -57,7 +60,7 @@ if [ -f "$kernel" ]; then
 	echo -e "\nKernel compiled succesfully! Zipping up...\n"
 	if [ -d "$AK3_DIR" ]; then
 		cp -r $AK3_DIR AnyKernel3
-	elif ! git clone -q https://github.com/CHRISL7/AnyKernel3 -b master-surya; then
+	elif ! git clone -q https://github.com/CHRISL7/AnyKernel3 -b uvite-ksu-surya; then
 		echo -e "\nAnyKernel3 repo not found locally and couldn't clone from GitHub! Aborting..."
 		exit 1
 	fi
